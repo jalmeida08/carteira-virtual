@@ -1,0 +1,7 @@
+/home/jefferson/workspace/carteira-virtual/src/main/java/br/com/jsa/repository/PessoaRepository.java
+/home/jefferson/workspace/carteira-virtual/src/main/java/br/com/jsa/util/EntityManagerProduces.java
+/home/jefferson/workspace/carteira-virtual/src/main/java/br/com/jsa/model/Pessoa.java
+/home/jefferson/workspace/carteira-virtual/src/main/java/br/com/jsa/resource/RestApplication.java
+/home/jefferson/workspace/carteira-virtual/src/main/java/br/com/jsa/resource/PessoaResource.java
+/home/jefferson/workspace/carteira-virtual/src/main/java/br/com/jsa/CORSResponseFilter.java
+/home/jefferson/workspace/carteira-virtual/src/main/java/br/com/jsa/util/PessoaService.java

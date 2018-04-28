@@ -1,0 +1,7 @@
+br/com/jsa/model/Pessoa.class
+br/com/jsa/repository/PessoaRepository.class
+br/com/jsa/CORSResponseFilter.class
+br/com/jsa/resource/RestApplication.class
+br/com/jsa/util/PessoaService.class
+br/com/jsa/resource/PessoaResource.class
+br/com/jsa/util/EntityManagerProduces.class

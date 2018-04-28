@@ -1,6 +1,7 @@
 package br.com.jsa.resource;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -10,7 +11,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import br.com.jsa.model.Pessoa;
@@ -36,9 +36,15 @@ public class PessoaResource implements Serializable{
 	}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/")
 	public void salvar(Pessoa pessoa) {
 		pessoaService.salvar(pessoa);
+	}
+	@GET
+	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+	@Path("/pessoas")
+	public List<Pessoa> pessoas () {
+		return pessoaService.buscarPessoas();
 	}
 }

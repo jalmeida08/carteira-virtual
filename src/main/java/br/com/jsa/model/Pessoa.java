@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 @Entity(name="pessoa")
 public class Pessoa implements Serializable {
@@ -18,6 +19,8 @@ public class Pessoa implements Serializable {
 	@Column(name = "id_pessoa")
 	private Long idPessoa;
 	private String nome;
+	@Version
+	private Long versao;
 
 	public Long getIdPessoa() {
 		return idPessoa;
