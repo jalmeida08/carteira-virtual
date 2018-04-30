@@ -35,7 +35,7 @@ public class PessoaService {
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void remover(Pessoa pessoa) {
-		pessoaRepository.remover(pessoa);
+	public void remover(Long idPessoa) {
+		pessoaRepository.remover(idPessoa);
 	}
 }

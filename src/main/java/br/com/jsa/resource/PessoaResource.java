@@ -1,17 +1,20 @@
 package br.com.jsa.resource;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import br.com.jsa.model.Pessoa;
 import br.com.jsa.util.PessoaService;
@@ -38,13 +41,24 @@ public class PessoaResource implements Serializable{
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/")
-	public void salvar(Pessoa pessoa) {
+	public Response salvar(Pessoa pessoa) {
 		pessoaService.salvar(pessoa);
+		URI uri = URI.create("pessoa/"+pessoa.getIdPessoa());
+		return Response.created(uri).build();
 	}
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	@Path("/pessoas")
+	@Path("/")
 	public List<Pessoa> pessoas () {
 		return pessoaService.buscarPessoas();
+	}
+	
+	@DELETE
+//	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public Response deletar(@PathParam("id") Long idPessoa) {
+		System.out.println(idPessoa);
+		pessoaService.remover(idPessoa);
+		return Response.ok().build();
 	}
 }

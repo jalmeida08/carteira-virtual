@@ -24,7 +24,8 @@ public class PessoaRepository {
 		manager.persist(pessoa);
 	}
 	
-	public void remover(Pessoa pessoa) {
+	public void remover(Long idPessoa) {
+		Pessoa pessoa = getPessoa(idPessoa);
 		manager.remove(pessoa);
 	}
 	
