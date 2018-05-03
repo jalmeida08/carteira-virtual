@@ -1,5 +1,6 @@
 package br.com.jsa.repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -7,8 +8,9 @@ import javax.persistence.EntityManager;
 
 import br.com.jsa.model.Pessoa;
 
-public class PessoaRepository {
+public class PessoaRepository  implements Serializable{
 
+	private static final long serialVersionUID = -7761370164651595939L;
 	@Inject
 	private EntityManager manager;
 	

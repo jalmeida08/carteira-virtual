@@ -1,24 +1,39 @@
 package br.com.jsa.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
-@Entity(name="pessoa")
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+@Entity(name = "pessoa")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idPessoa")
 public class Pessoa implements Serializable {
 
-	private static final long serialVersionUID = 3597593125674734808L;
+	private static final long serialVersionUID = 4022370808231779273L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_pessoa")
 	private Long idPessoa;
 	private String nome;
+	@Column(name = "data_nascimento")
+	@Temporal(TemporalType.DATE)
+	private Date dataNascimento;
+	@OneToOne(mappedBy = "pessoa", orphanRemoval = true)
+	@JoinColumn(name = "id_usuario")
+	private Usuario usuario;
 	@Version
 	private Long versao;
 
@@ -36,6 +51,22 @@ public class Pessoa implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

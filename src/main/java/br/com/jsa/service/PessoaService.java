@@ -1,4 +1,4 @@
-package br.com.jsa.util;
+package br.com.jsa.service;
 
 import java.util.List;
 

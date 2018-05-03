@@ -10,6 +10,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,7 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.jsa.model.Pessoa;
-import br.com.jsa.util.PessoaService;
+import br.com.jsa.service.PessoaService;
 
 @Path("/pessoa")
 @RequestScoped
@@ -25,40 +26,48 @@ import br.com.jsa.util.PessoaService;
 @Consumes({ "application/xml", "application/json" })
 public class PessoaResource implements Serializable{
 
-	private static final long serialVersionUID = 1479679706442678577L;
-
+	private static final long serialVersionUID = 3888369111153629566L;
+	
 	@Inject
 	private PessoaService pessoaService;
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	@Path("/{id}")
 	public Pessoa getPessoa(@PathParam("id") Long id) {
-		System.out.println(("ESTE È O ID DA CHAMADA: "+ id));
+		System.out.println(("ESTE È O ID DA CHAMADA: " + id));
 		return pessoaService.getPessoa(id);
 	}
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/")
 	public Response salvar(Pessoa pessoa) {
 		pessoaService.salvar(pessoa);
-		URI uri = URI.create("pessoa/"+pessoa.getIdPessoa());
+		URI uri = URI.create("pessoa/" + pessoa.getIdPessoa());
 		return Response.created(uri).build();
 	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	@Path("/")
-	public List<Pessoa> pessoas () {
+	public List<Pessoa> pessoas() {
 		return pessoaService.buscarPessoas();
 	}
-	
+
 	@DELETE
-//	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public Response deletar(@PathParam("id") Long idPessoa) {
-		System.out.println(idPessoa);
 		pessoaService.remover(idPessoa);
 		return Response.ok().build();
+	}
+
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/")
+	public Response atualizar(Pessoa pessoa) {
+		pessoaService.atualizar(pessoa);
+		return Response.accepted().build();
+		
 	}
 }
