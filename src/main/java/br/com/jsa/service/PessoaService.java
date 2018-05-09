@@ -1,5 +1,6 @@
 package br.com.jsa.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -27,6 +28,10 @@ public class PessoaService {
 
 	public List<Pessoa> buscarPessoas(){
 		return pessoaRepository.buscarPessoas();
+	}
+	
+	public Pessoa buscarNomeDataNascimento(Pessoa pessoa) {
+		return pessoaRepository.buscarNomeDataNascimento(pessoa);
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)

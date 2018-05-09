@@ -62,6 +62,14 @@ public class PessoaResource implements Serializable{
 		return Response.ok().build();
 	}
 
+	@POST
+	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/buscarNomeDataNascimento")
+	public Pessoa buscarNomeDataNascimento(Pessoa pessoa) {
+		return pessoaService.buscarNomeDataNascimento(pessoa);
+	}
+	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/")

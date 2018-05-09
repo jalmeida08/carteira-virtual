@@ -1,6 +1,7 @@
 package br.com.jsa.repository;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,6 +21,13 @@ public class PessoaRepository  implements Serializable{
 	
 	public List<Pessoa> buscarPessoas() {
 		return manager.createQuery("select p from br.com.jsa.model.Pessoa p",Pessoa.class).getResultList();		
+	}
+	
+	public Pessoa buscarNomeDataNascimento(Pessoa pessoa) {
+		return manager.createQuery("select p from br.com.jsa.model.Pessoa p where nome = :nome and dataNascimento = :dtNascimento", Pessoa.class)
+				.setParameter("nome", pessoa.getNome())
+				.setParameter("dtNascimento", pessoa.getDataNascimento())
+				.getSingleResult();
 	}
 	
 	public void salvar(Pessoa pessoa) {
