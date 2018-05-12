@@ -1,7 +1,9 @@
 package br.com.jsa.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,6 +37,8 @@ public class Pessoa implements Serializable {
 	@OneToOne(mappedBy = "pessoa", orphanRemoval = true)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
+	@OneToMany(mappedBy="pessoa")
+	private List<Pagamento> pagamento = new ArrayList<Pagamento>();
 	@Version
 	private Long versao;
 
