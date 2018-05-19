@@ -29,14 +29,17 @@ public class Pagamento implements Serializable {
 	@Column(name = "id_pagamento")
 	private Long idPagamento;
 	@Temporal(TemporalType.DATE)
-	private Date data_pagamento;
+	@Column(name = "data_pagamento")
+	private Date dataPagamento;
 	private boolean fixo;
 	private Double valor;
 	@Enumerated(EnumType.STRING)
+	@Column(name = "status_pagamento")
 	private StatusPagamento statusPagamento;
 	@ManyToOne
 	@JoinColumn(name = "id_pessoa")
 	private Pessoa pessoa;
+	private String descricao;
 	@Version
 	private long versao;
 
@@ -48,12 +51,12 @@ public class Pagamento implements Serializable {
 		this.idPagamento = idPagamento;
 	}
 
-	public Date getData_pagamento() {
-		return data_pagamento;
+	public Date getDataPagamento() {
+		return dataPagamento;
 	}
 
-	public void setData_pagamento(Date data_pagamento) {
-		this.data_pagamento = data_pagamento;
+	public void setDataPagamento(Date dataPagamento) {
+		this.dataPagamento = dataPagamento;
 	}
 
 	public boolean isFixo() {
@@ -72,6 +75,14 @@ public class Pagamento implements Serializable {
 		this.valor = valor;
 	}
 
+	public StatusPagamento getStatusPagamento() {
+		return statusPagamento;
+	}
+
+	public void setStatusPagamento(StatusPagamento statusPagamento) {
+		this.statusPagamento = statusPagamento;
+	}
+
 	public Pessoa getPessoa() {
 		return pessoa;
 	}
@@ -80,12 +91,20 @@ public class Pagamento implements Serializable {
 		this.pessoa = pessoa;
 	}
 
-	public StatusPagamento getStatusPagamento() {
-		return statusPagamento;
+	public long getVersao() {
+		return versao;
 	}
 
-	public void setStatusPagamento(StatusPagamento statusPagamento) {
-		this.statusPagamento = statusPagamento;
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public void setVersao(long versao) {
+		this.versao = versao;
 	}
 
 }

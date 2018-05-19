@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 
 import br.com.jsa.model.Usuario;
 import br.com.jsa.repository.UsuarioRepository;
@@ -24,24 +25,29 @@ public class UsuarioService {
 	public Usuario getUsuario(Long idUsuario) {
 		return usuarioRepository.getUsuario(idUsuario);
 	}
-	
-	public Usuario logar(String email, String senha) {
-		return usuarioRepository.logar(email, senha);
+
+	public Usuario logar(Usuario usuario) {
+		try {
+			return usuarioRepository.logar(usuario.getEmail(), usuario.getSenha());
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	public List<Usuario> buscarUsuarios() {
 		return usuarioRepository.buscarUsuarios();
 	}
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void atualizar(Usuario usuario) {
 		usuarioRepository.atualizar(usuario);
 	}
-	
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void atualizarSenha(Usuario usuario) {
 		usuarioRepository.atualizarSenha(usuario);
 	}
-	
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void remover(Long idUsuario) {
 		usuarioRepository.remover(idUsuario);

@@ -37,7 +37,7 @@ public class Pessoa implements Serializable {
 	@OneToOne(mappedBy = "pessoa", orphanRemoval = true)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
-	@OneToMany(mappedBy="pessoa")
+	@OneToMany(mappedBy="pessoa", orphanRemoval=true)
 	private List<Pagamento> pagamento = new ArrayList<Pagamento>();
 	@Version
 	private Long versao;

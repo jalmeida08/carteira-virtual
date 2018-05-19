@@ -27,4 +27,17 @@ public class PagamentoService {
 	public List<Pagamento>buscarPagamentos() {
 		return pagamentoRespository.buscarTodosPagamentos();
 	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void atualizar(Pagamento pagamento) {
+		pagamentoRespository.atualizar(pagamento);
+	}
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void statusPagamento(Pagamento pagamento) {
+		pagamentoRespository.statusPagamento(pagamento);
+	}
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void remover (Long idPagamento) {
+		pagamentoRespository.remover(idPagamento);
+	}
 }

@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 
+import javax.ejb.Remove;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -21,7 +25,7 @@ import br.com.jsa.service.UsuarioService;
 @RequestScoped
 @Produces({ "application/xml", "application/json" })
 @Consumes({ "application/xml", "application/json" })
-public class UsuarioResource  implements Serializable{
+public class UsuarioResource implements Serializable {
 
 	private static final long serialVersionUID = -5514888143532451473L;
 	@Inject
@@ -31,21 +35,29 @@ public class UsuarioResource  implements Serializable{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/")
 	public Response salvar(Usuario usuario) {
-		System.out.println("__________________ ID "+usuario.getEmail() + "  "+ usuario.getPessoa().getIdPessoa());
 		usuarioService.salvar(usuario);
 		URI uri = URI.create("usuario/" + usuario.getIdUsuario());
 		return Response.created(uri).build();
 	}
 
-/*	@GET
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public Usuario getUsuario(@PathParam("id") Long idUsuario) {
+		System.out.println(idUsuario);
 		return usuarioService.getUsuario(idUsuario);
-	}*/
+	}
 
-	public Usuario logar(String email, String senha) {
-		return usuarioService.logar(email, senha);
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/login")
+	public Usuario logar(Usuario usuario) {
+		Usuario user = usuarioService.logar(usuario);
+		if (user == null) {
+			return null;
+		}
+		return user;
 	}
 
 	@GET
@@ -55,15 +67,27 @@ public class UsuarioResource  implements Serializable{
 		return usuarioService.buscarUsuarios();
 	}
 
-/*	public void atualizar(Usuario usuario) {
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/")
+	public Response atualizar(Usuario usuario) {
 		usuarioService.atualizar(usuario);
+		return Response.ok().build();
 	}
 
-	public void atualizarSenha(Usuario usuario) {
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/atualizarSenha")
+	public Response atualizarSenha(Usuario usuario) {
 		usuarioService.atualizarSenha(usuario);
+		return Response.ok().build();
 	}
 
-	public void remover(Long idUsuario) {
+	@DELETE
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public Response remover(@PathParam("id") Long idUsuario) {
 		usuarioService.remover(idUsuario);
-	}*/
+		return Response.ok().build();
+	}
 }

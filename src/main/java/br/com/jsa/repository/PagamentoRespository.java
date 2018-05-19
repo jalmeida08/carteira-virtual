@@ -6,30 +6,50 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import br.com.jsa.model.Pagamento;
+import br.com.jsa.model.Pessoa;
 
 public class PagamentoRespository {
 
 	@Inject
 	private EntityManager manager;
-	
+
 	public void salvar(Pagamento pagamento) {
+		if (pagamento.getPessoa() != null) {
+			Pessoa pessoa = getPessoa(pagamento.getPessoa().getIdPessoa());
+			pagamento.setPessoa(pessoa);
+		}
 		manager.persist(pagamento);
 	}
-	
-	public Pagamento getPagamento (Long idPagamento) {
+
+	public Pessoa getPessoa(Long idPessoa) {
+		return manager.find(Pessoa.class, idPessoa);
+	}
+
+	public Pagamento getPagamento(Long idPagamento) {
 		return manager.find(Pagamento.class, idPagamento);
 	}
-	
-	public List<Pagamento> buscarTodosPagamentos(){
+
+	public List<Pagamento> buscarTodosPagamentos() {
 		return manager.createQuery("select p from br.com.jsa.model.Pagamento p", Pagamento.class).getResultList();
 	}
-	
+
 	public void remover(Long idPagamento) {
 		Pagamento pagamento = getPagamento(idPagamento);
 		manager.remove(pagamento);
 	}
-	
+
+	public void atualizar(Pagamento pagamento) {
+		Pagamento pag = getPagamento(pagamento.getIdPagamento());
+		pag.setDataPagamento(pagamento.getDataPagamento());
+		pag.setStatusPagamento(pagamento.getStatusPagamento());
+		pag.setValor(pagamento.getValor());
+		pag.setFixo(pagamento.isFixo());
+		manager.merge(pag);
+	}
+
 	public void statusPagamento(Pagamento pagamento) {
-		
+		Pagamento pag = getPagamento(pagamento.getIdPagamento());
+		pag.setStatusPagamento(pagamento.getStatusPagamento());
+		manager.merge(pag);
 	}
 }
