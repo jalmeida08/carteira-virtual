@@ -74,8 +74,8 @@ public class PessoaResource implements Serializable{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/")
 	public Response atualizar(Pessoa pessoa) {
+		System.out.println(pessoa.getDataNascimento());
 		pessoaService.atualizar(pessoa);
 		return Response.accepted().build();
-		
 	}
 }

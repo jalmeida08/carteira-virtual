@@ -42,6 +42,7 @@ public class PessoaRepository  implements Serializable{
 	public void atualizar(Pessoa pessoa) {
 		Pessoa p = getPessoa(pessoa.getIdPessoa());
 		p.setNome(pessoa.getNome());
+		p.setDataNascimento(pessoa.getDataNascimento());
 		manager.merge(p);
 	}
 	

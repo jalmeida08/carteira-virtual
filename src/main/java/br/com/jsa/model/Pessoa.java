@@ -2,6 +2,7 @@ package br.com.jsa.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class Pessoa implements Serializable {
 	private String nome;
 	@Column(name = "data_nascimento")
 	@Temporal(TemporalType.DATE)
-	private Date dataNascimento;
+	private Calendar dataNascimento;
 	@OneToOne(mappedBy = "pessoa", orphanRemoval = true)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
@@ -62,11 +63,11 @@ public class Pessoa implements Serializable {
 		return usuario;
 	}
 
-	public Date getDataNascimento() {
+	public Calendar getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(Calendar dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
