@@ -1,6 +1,5 @@
 package br.com.jsa.service;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -13,32 +12,40 @@ import br.com.jsa.repository.PessoaRepository;
 
 @Stateless
 public class PessoaService {
-	
+
 	@Inject
 	private PessoaRepository pessoaRepository;
-	
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void salvar(Pessoa pessoa) {
-		pessoaRepository.salvar(pessoa);
+		//CHECA SE A PESSOA JA EXISTE NO BANCO DE DADOS
+		if (pessoaRepository.buscarNome(pessoa).size() == 0) {
+			pessoaRepository.salvar(pessoa);
+		}else{
+			throw new RuntimeException("Nao pode gravar pessoa");			
+		}
 	}
-	
+
 	public Pessoa getPessoa(Long idPessoa) {
 		return pessoaRepository.getPessoa(idPessoa);
 	}
 
-	public List<Pessoa> buscarPessoas(){
+	public List<Pessoa> buscarPessoas() {
 		return pessoaRepository.buscarPessoas();
 	}
-	
-	public Pessoa buscarNomeDataNascimento(Pessoa pessoa) {
-		return pessoaRepository.buscarNomeDataNascimento(pessoa);
+
+	public Pessoa buscarNome(Pessoa pessoa) {
+		if (pessoaRepository.buscarNome(pessoa).size() <= 1) {
+			return pessoaRepository.buscarNome(pessoa).get(0);
+		}
+		return null;
 	}
-	
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void atualizar(Pessoa pessoa) {
 		pessoaRepository.atualizar(pessoa);
 	}
-	
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void remover(Long idPessoa) {
 		pessoaRepository.remover(idPessoa);

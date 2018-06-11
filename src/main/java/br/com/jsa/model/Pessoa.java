@@ -2,8 +2,6 @@ package br.com.jsa.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -32,9 +28,6 @@ public class Pessoa implements Serializable {
 	@Column(name = "id_pessoa")
 	private Long idPessoa;
 	private String nome;
-	@Column(name = "data_nascimento")
-	@Temporal(TemporalType.DATE)
-	private Calendar dataNascimento;
 	@OneToOne(mappedBy = "pessoa", orphanRemoval = true)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
@@ -61,14 +54,6 @@ public class Pessoa implements Serializable {
 
 	public Usuario getUsuario() {
 		return usuario;
-	}
-
-	public Calendar getDataNascimento() {
-		return dataNascimento;
-	}
-
-	public void setDataNascimento(Calendar dataNascimento) {
-		this.dataNascimento = dataNascimento;
 	}
 
 	public void setUsuario(Usuario usuario) {

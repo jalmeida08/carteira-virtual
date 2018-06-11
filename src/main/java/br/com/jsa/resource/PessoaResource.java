@@ -43,9 +43,13 @@ public class PessoaResource implements Serializable{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/")
 	public Response salvar(Pessoa pessoa) {
-		pessoaService.salvar(pessoa);
-		URI uri = URI.create("pessoa/" + pessoa.getIdPessoa());
-		return Response.created(uri).build();
+		try {
+			pessoaService.salvar(pessoa);			
+			URI uri = URI.create("pessoa/" + pessoa.getIdPessoa());
+			return Response.created(uri).build();
+		}catch (Exception e) {
+			return Response.serverError().build();
+		}
 	}
 
 	@GET
@@ -65,16 +69,15 @@ public class PessoaResource implements Serializable{
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/buscarNomeDataNascimento")
+	@Path("/buscarNome")
 	public Pessoa buscarNomeDataNascimento(Pessoa pessoa) {
-		return pessoaService.buscarNomeDataNascimento(pessoa);
+		return pessoaService.buscarNome(pessoa);
 	}
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/")
 	public Response atualizar(Pessoa pessoa) {
-		System.out.println(pessoa.getDataNascimento());
 		pessoaService.atualizar(pessoa);
 		return Response.accepted().build();
 	}
