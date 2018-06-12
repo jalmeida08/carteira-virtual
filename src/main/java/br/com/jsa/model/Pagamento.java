@@ -28,7 +28,7 @@ public class Pagamento implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_pagamento")
 	private Long idPagamento;
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
 	@Column(name = "data_pagamento")
 	private Date dataPagamento;
 	private boolean fixo;

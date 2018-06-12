@@ -20,13 +20,14 @@ import br.com.jsa.model.Pagamento;
 import br.com.jsa.service.PagamentoService;
 
 @Path("/pagamento")
-public class PagamentoResource implements Serializable{
+public class PagamentoResource implements Serializable {
 
 	private static final long serialVersionUID = -3212001621328765794L;
-	
+
 	@Inject
 	private PagamentoService pagamentoService;
-	
+
+	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	@Path("/{id}")
 	public Pagamento getPessoa(@PathParam("id") Long idPagamento) {
@@ -37,10 +38,10 @@ public class PagamentoResource implements Serializable{
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public List<Pagamento> pagamentos(){
+	public List<Pagamento> pagamentos() {
 		return pagamentoService.buscarPagamentos();
 	}
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/")
@@ -49,7 +50,7 @@ public class PagamentoResource implements Serializable{
 		URI uri = URI.create("pessoa/" + pagamento.getIdPagamento());
 		return Response.created(uri).build();
 	}
-	
+
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/")
@@ -57,14 +58,14 @@ public class PagamentoResource implements Serializable{
 		pagamentoService.atualizar(pagamento);
 		return Response.ok().build();
 	}
-	
+
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public Response remover(@PathParam("id")Long idPagamento) {
-		System.out.println("idPagamento "+idPagamento);
+	public Response remover(@PathParam("id") Long idPagamento) {
+		System.out.println("idPagamento " + idPagamento);
 		pagamentoService.remover(idPagamento);
 		return Response.ok().build();
 	}
-	
+
 }
