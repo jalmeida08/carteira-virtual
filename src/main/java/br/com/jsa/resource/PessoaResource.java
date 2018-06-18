@@ -35,7 +35,6 @@ public class PessoaResource implements Serializable{
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	@Path("/{id}")
 	public Pessoa getPessoa(@PathParam("id") Long id) {
-		System.out.println(("ESTE È O ID DA CHAMADA: " + id));
 		return pessoaService.getPessoa(id);
 	}
 
