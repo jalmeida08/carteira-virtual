@@ -39,13 +39,7 @@ public class PagamentoResource implements Serializable {
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public List<Pagamento> pagamentos() {
-		List<Pagamento> buscarPagamentos = pagamentoService.buscarPagamentos();
-		for (Pagamento p : buscarPagamentos) {
-			System.out.println("getNome "+p.getPessoa().getNome());
-			System.out.println("getIdPagamento "+p.getIdPagamento());
-			System.out.println("getIdPessoa "+p.getPessoa().getIdPessoa());
-		}
-		return buscarPagamentos;
+		return pagamentoService.buscarPagamentos();
 	}
 
 	@POST

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity(name = "parcela")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idParcela")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idParcela", scope=Parcela.class)
 public class Parcela implements Serializable {
 
 	private static final long serialVersionUID = -6038090343475692010L;

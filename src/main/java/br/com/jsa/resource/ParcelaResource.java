@@ -3,6 +3,7 @@ package br.com.jsa.resource;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -19,6 +20,9 @@ import br.com.jsa.model.Parcela;
 import br.com.jsa.service.ParcelaService;
 
 @Path("/parcela")
+@RequestScoped
+@Produces({ "application/xml", "application/json" })
+@Consumes({ "application/xml", "application/json" })
 public class ParcelaResource implements Serializable {
 	private static final long serialVersionUID = -4916593477326713846L;
 	@Inject
