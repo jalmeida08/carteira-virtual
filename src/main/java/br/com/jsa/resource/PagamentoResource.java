@@ -13,6 +13,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -63,9 +64,21 @@ public class PagamentoResource implements Serializable {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public Response remover(@PathParam("id") Long idPagamento) {
-		System.out.println("idPagamento " + idPagamento);
 		pagamentoService.remover(idPagamento);
 		return Response.ok().build();
 	}
+	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/fecharPagamento/{id}")
+	public Response fecharPagamento(@PathParam("id") Long idPagamento) {
+		try{
+			pagamentoService.fecharPagamento(idPagamento);
+			return Response.ok().build();
+		}catch (RuntimeException e) {
+			return Response.serverError().build();
+		}
+	}
+	
 
 }

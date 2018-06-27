@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -32,6 +34,7 @@ public class Pagamento implements Serializable {
 	private Long idPagamento;
 
 	@Column(name = "data_pagamento")
+	@Temporal(TemporalType.DATE)
 	private Date dataPagamento;
 
 	private boolean fixo;
