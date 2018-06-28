@@ -65,8 +65,17 @@ public class PagamentoService {
 	public void fecharPagamento(Long idPagamento) {
 		Pagamento pagamento = this.getPagamento(idPagamento);
 		if(pagamento.getStatusPagamento().equals(StatusPagamento.RECEBIDO)) {
-			throw new RuntimeException("Pagamento ja está com o status de recebido");
+			throw new RuntimeException("Pagamento já está com o status de recebido");
 		}
 		pagamentoRespository.fecharPagamento(idPagamento);
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void abrirPagamento(Long idPagamento) {
+		Pagamento pagamento = this.getPagamento(idPagamento);
+		if(pagamento.getStatusPagamento().equals(StatusPagamento.RECEBIDO)) {
+			throw new RuntimeException("Pagamento já está com o status de aberto");
+		}
+		pagamentoRespository.abrirPagamento(idPagamento);
 	}
 }

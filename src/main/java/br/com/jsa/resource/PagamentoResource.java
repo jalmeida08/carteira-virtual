@@ -80,5 +80,16 @@ public class PagamentoResource implements Serializable {
 		}
 	}
 	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/abrirPagamento/{id}")
+	public Response abrirPagamento(@PathParam("id") Long idPagamento) {
+		try{
+			pagamentoService.abrirPagamento(idPagamento);
+			return Response.ok().build();
+		}catch (RuntimeException e) {
+			return Response.serverError().build();
+		}
+	}
 
 }

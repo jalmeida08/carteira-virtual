@@ -68,4 +68,10 @@ public class PagamentoRespository {
 		pagamento.setStatusPagamento(StatusPagamento.RECEBIDO);
 		manager.merge(pagamento);
 	}
+	
+	public void abrirPagamento(Long idPagamento) {
+		Pagamento pagamento = this.getPagamento(idPagamento);
+		pagamento.setStatusPagamento(StatusPagamento.ARECEBER);
+		manager.merge(pagamento);
+	}
 }
