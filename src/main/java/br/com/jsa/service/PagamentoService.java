@@ -1,8 +1,8 @@
 package br.com.jsa.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -36,8 +36,12 @@ public class PagamentoService {
 	}
 	
 	public void buscarTodosOsPagamentosDoMes(){
-		/*Date data = new Date();
-		GregorianCalendar c = getDateCalendar();*/
+		Date data = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(data);
+		c.add(Calendar.MONTH, 0);
+		c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+		System.out.println(new SimpleDateFormat("dd/MM/yyyy").format(c.getTime()));
 		
 	}
 	
