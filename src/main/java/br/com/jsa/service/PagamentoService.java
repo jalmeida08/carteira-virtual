@@ -1,6 +1,8 @@
 package br.com.jsa.service;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -31,6 +33,12 @@ public class PagamentoService {
 	
 	public List<Pagamento>buscarPagamentos() {
 		return pagamentoRespository.buscarTodosPagamentos();
+	}
+	
+	public void buscarTodosOsPagamentosDoMes(){
+		/*Date data = new Date();
+		GregorianCalendar c = getDateCalendar();*/
+		
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -65,7 +73,7 @@ public class PagamentoService {
 	public void fecharPagamento(Long idPagamento) {
 		Pagamento pagamento = this.getPagamento(idPagamento);
 		if(pagamento.getStatusPagamento().equals(StatusPagamento.RECEBIDO)) {
-			throw new RuntimeException("Pagamento j√° est√° com o status de recebido");
+			throw new RuntimeException("Pagamento j· est· com o status de recebido");
 		}
 		pagamentoRespository.fecharPagamento(idPagamento);
 	}
@@ -73,8 +81,8 @@ public class PagamentoService {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void abrirPagamento(Long idPagamento) {
 		Pagamento pagamento = this.getPagamento(idPagamento);
-		if(pagamento.getStatusPagamento().equals(StatusPagamento.RECEBIDO)) {
-			throw new RuntimeException("Pagamento j√° est√° com o status de aberto");
+		if(pagamento.getStatusPagamento().equals(StatusPagamento.ARECEBER)) {
+			throw new RuntimeException("Pagamento j· est· com o status de aberto");
 		}
 		pagamentoRespository.abrirPagamento(idPagamento);
 	}
