@@ -1,6 +1,7 @@
 package br.com.jsa.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -35,16 +36,6 @@ public class PagamentoService {
 		return pagamentoRespository.buscarTodosPagamentos();
 	}
 	
-	public void buscarTodosOsPagamentosDoMes(){
-		Date data = new Date();
-		Calendar c = Calendar.getInstance();
-		c.setTime(data);
-		c.add(Calendar.MONTH, 0);
-		c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-		System.out.println(new SimpleDateFormat("dd/MM/yyyy").format(c.getTime()));
-		
-	}
-	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void atualizar(Pagamento pagamento) {
 		if(pagamento.isFixo()) {
@@ -77,7 +68,7 @@ public class PagamentoService {
 	public void fecharPagamento(Long idPagamento) {
 		Pagamento pagamento = this.getPagamento(idPagamento);
 		if(pagamento.getStatusPagamento().equals(StatusPagamento.RECEBIDO)) {
-			throw new RuntimeException("Pagamento j· est· com o status de recebido");
+			throw new RuntimeException("Pagamento j√° est√° com o status de recebido");
 		}
 		pagamentoRespository.fecharPagamento(idPagamento);
 	}
@@ -86,8 +77,34 @@ public class PagamentoService {
 	public void abrirPagamento(Long idPagamento) {
 		Pagamento pagamento = this.getPagamento(idPagamento);
 		if(pagamento.getStatusPagamento().equals(StatusPagamento.ARECEBER)) {
-			throw new RuntimeException("Pagamento j· est· com o status de aberto");
+			throw new RuntimeException("Pagamento j√° est√° com o status de aberto");
 		}
 		pagamentoRespository.abrirPagamento(idPagamento);
+	}
+	
+	public List<Pagamento> buscarTodosOsPagamentosDoMes(){
+		Date data = new Date();
+		 
+		 for (Pagamento p : pagamentoRespository.pagamentosDoMes(this.primeiroEUltimoDia(data))) {
+			System.out.println(p.getDataPagamento()+ " - "+ p.getDescricao());
+			
+		}
+		 return null;
+	}
+	
+	public List<String> primeiroEUltimoDia(Date data){
+		List<String> primeiroEUltimoDiaDoMes = new ArrayList<String>();
+		Calendar primeiroDia = Calendar.getInstance();
+		primeiroDia.setTime(data);
+		primeiroDia.add(Calendar.MONTH, 0);
+		primeiroDia.set(Calendar.DAY_OF_MONTH, primeiroDia.getActualMinimum(Calendar.DAY_OF_MONTH));
+		primeiroEUltimoDiaDoMes.add(new SimpleDateFormat("yyyy-MM-dd").format(primeiroDia.getTime()));
+		
+		Calendar ultimoDia = Calendar.getInstance();
+		ultimoDia.setTime(data);
+		ultimoDia.add(Calendar.MONTH, 0);
+		ultimoDia.set(Calendar.DAY_OF_MONTH, ultimoDia.getActualMaximum(Calendar.DAY_OF_MONTH));
+		primeiroEUltimoDiaDoMes.add(new SimpleDateFormat("yyyy-MM-dd").format(ultimoDia.getTime()));
+		return primeiroEUltimoDiaDoMes;
 	}
 }
