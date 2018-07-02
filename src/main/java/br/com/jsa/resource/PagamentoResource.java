@@ -31,7 +31,6 @@ public class PagamentoResource implements Serializable {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	@Path("/{id}")
 	public Pagamento getPessoa(@PathParam("id") Long idPagamento) {
-		System.out.println(("ESTE È O ID DA CHAMADA: " + idPagamento));
 		return pagamentoService.getPagamento(idPagamento);
 	}
 
@@ -89,6 +88,13 @@ public class PagamentoResource implements Serializable {
 		}catch (RuntimeException e) {
 			return Response.serverError().build();
 		}
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/pagametosDoMes")
+	public List<Pagamento> pagamentosDoMes() {
+		return pagamentoService.buscarTodosOsPagamentosDoMes();
 	}
 
 }

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 
-import javax.ejb.Remove;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;

@@ -75,12 +75,11 @@ public class PagamentoRespository {
 		manager.merge(pagamento);
 	}
 	
-	public List<Pagamento> pagamentosDoMes(List<String> datas) {
+	public List<Pagamento> pagamentosDoMes(List<Date> datas) {
 		List<Pagamento> pagamentosDoMes = manager.createQuery("select p from br.com.jsa.model.Pagamento p where p.dataPagamento between :primeiroDia and :ultimoDia", Pagamento.class)
 				.setParameter("primeiroDia",datas.get(0))
 				.setParameter("ultimoDia", datas.get(1))
 				.getResultList();
-		
 		return pagamentosDoMes;
 	}
 }

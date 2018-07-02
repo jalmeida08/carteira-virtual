@@ -1,6 +1,5 @@
 package br.com.jsa.service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,92 +18,90 @@ import br.com.jsa.repository.PagamentoRespository;
 public class PagamentoService {
 	@Inject
 	private PagamentoRespository pagamentoRespository;
-	
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void salvar(Pagamento pagamento) {
-		if(pagamento.isFixo()) {
+		if (pagamento.isFixo()) {
 			pagamento.setStatusPagamento(StatusPagamento.ARECEBER);
 		}
 		pagamentoRespository.salvar(pagamento);
 	}
-	
+
 	public Pagamento getPagamento(Long idPagamento) {
 		return pagamentoRespository.getPagamento(idPagamento);
 	}
-	
-	public List<Pagamento>buscarPagamentos() {
+
+	public List<Pagamento> buscarPagamentos() {
 		return pagamentoRespository.buscarTodosPagamentos();
 	}
-	
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void atualizar(Pagamento pagamento) {
-		if(pagamento.isFixo()) {
+		if (pagamento.isFixo()) {
 			pagamento.setStatusPagamento(StatusPagamento.ARECEBER);
 		}
 		pagamentoRespository.atualizar(pagamento);
 	}
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void statusPagamento(Pagamento pagamento) {
 		pagamentoRespository.statusPagamento(pagamento);
 	}
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void remover (Long idPagamento) {
+	public void remover(Long idPagamento) {
 		pagamentoRespository.remover(idPagamento);
 	}
-	
+
 	public void checarPagamentoDoDia() {
 		Date dataAtual = new Date();
 		List<Pagamento> checarPagamentoDoDia = pagamentoRespository.checarPagamentoDoDia(dataAtual);
 		for (Pagamento pagamento : checarPagamentoDoDia) {
 			System.out.println(pagamento.getStatusPagamento());
-			if(pagamento.getStatusPagamento().equals(StatusPagamento.ARECEBER)) {
+			if (pagamento.getStatusPagamento().equals(StatusPagamento.ARECEBER)) {
 				pagamento.setStatusPagamento(StatusPagamento.RECEBIDO);
 				pagamentoRespository.atualizar(pagamento);
 			}
 		}
 	}
-	
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void fecharPagamento(Long idPagamento) {
 		Pagamento pagamento = this.getPagamento(idPagamento);
-		if(pagamento.getStatusPagamento().equals(StatusPagamento.RECEBIDO)) {
+		if (pagamento.getStatusPagamento().equals(StatusPagamento.RECEBIDO)) {
 			throw new RuntimeException("Pagamento já está com o status de recebido");
 		}
 		pagamentoRespository.fecharPagamento(idPagamento);
 	}
-	
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void abrirPagamento(Long idPagamento) {
 		Pagamento pagamento = this.getPagamento(idPagamento);
-		if(pagamento.getStatusPagamento().equals(StatusPagamento.ARECEBER)) {
+		if (pagamento.getStatusPagamento().equals(StatusPagamento.ARECEBER)) {
 			throw new RuntimeException("Pagamento já está com o status de aberto");
 		}
 		pagamentoRespository.abrirPagamento(idPagamento);
 	}
-	
-	public List<Pagamento> buscarTodosOsPagamentosDoMes(){
+
+	public List<Pagamento> buscarTodosOsPagamentosDoMes() {
 		Date data = new Date();
-		 
-		 for (Pagamento p : pagamentoRespository.pagamentosDoMes(this.primeiroEUltimoDia(data))) {
-			System.out.println(p.getDataPagamento()+ " - "+ p.getDescricao());
-			
-		}
-		 return null;
+		return pagamentoRespository.pagamentosDoMes(this.primeiroEUltimoDia(data));
 	}
-	
-	public List<String> primeiroEUltimoDia(Date data){
-		List<String> primeiroEUltimoDiaDoMes = new ArrayList<String>();
+
+	public List<Date> primeiroEUltimoDia(Date data) {
+		List<Date> primeiroEUltimoDiaDoMes = new ArrayList<Date>();
 		Calendar primeiroDia = Calendar.getInstance();
+
 		primeiroDia.setTime(data);
 		primeiroDia.add(Calendar.MONTH, 0);
 		primeiroDia.set(Calendar.DAY_OF_MONTH, primeiroDia.getActualMinimum(Calendar.DAY_OF_MONTH));
-		primeiroEUltimoDiaDoMes.add(new SimpleDateFormat("yyyy-MM-dd").format(primeiroDia.getTime()));
-		
+		primeiroEUltimoDiaDoMes.add(primeiroDia.getTime());
+
 		Calendar ultimoDia = Calendar.getInstance();
 		ultimoDia.setTime(data);
 		ultimoDia.add(Calendar.MONTH, 0);
 		ultimoDia.set(Calendar.DAY_OF_MONTH, ultimoDia.getActualMaximum(Calendar.DAY_OF_MONTH));
-		primeiroEUltimoDiaDoMes.add(new SimpleDateFormat("yyyy-MM-dd").format(ultimoDia.getTime()));
+		primeiroEUltimoDiaDoMes.add(ultimoDia.getTime());
 		return primeiroEUltimoDiaDoMes;
 	}
 }

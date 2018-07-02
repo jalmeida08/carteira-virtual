@@ -15,7 +15,6 @@ public class PagamentoRotina {
 	
 	@Schedule(hour="*", minute="*/1")
 	public void VerificarPagamentos() {
-		pagamentoService.buscarTodosOsPagamentosDoMes();
 		pagamentoService.checarPagamentoDoDia();
 	}
 
