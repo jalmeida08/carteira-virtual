@@ -21,9 +21,6 @@ public class PagamentoService {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void salvar(Pagamento pagamento) {
-		if (pagamento.isFixo()) {
-			pagamento.setStatusPagamento(StatusPagamento.ARECEBER);
-		}
 		pagamentoRespository.salvar(pagamento);
 	}
 
@@ -37,9 +34,6 @@ public class PagamentoService {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void atualizar(Pagamento pagamento) {
-		if (pagamento.isFixo()) {
-			pagamento.setStatusPagamento(StatusPagamento.ARECEBER);
-		}
 		pagamentoRespository.atualizar(pagamento);
 	}
 

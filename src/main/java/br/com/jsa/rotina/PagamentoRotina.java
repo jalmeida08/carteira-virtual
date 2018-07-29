@@ -7,15 +7,15 @@ import javax.inject.Inject;
 
 import br.com.jsa.service.PagamentoService;
 
-@Singleton
-@Startup
+//@Singleton
+//@Startup
 public class PagamentoRotina {
-	@Inject
-	private PagamentoService pagamentoService;
+	//@Inject
+	//private PagamentoService pagamentoService;
 	
-	@Schedule(hour="*", minute="*/1")
-	public void VerificarPagamentos() {
-		pagamentoService.checarPagamentoDoDia();
-	}
+	//@Schedule(hour="*", minute="*/1")
+	//public void VerificarPagamentos() {
+		//pagamentoService.checarPagamentoDoDia();
+	//}
 
 }

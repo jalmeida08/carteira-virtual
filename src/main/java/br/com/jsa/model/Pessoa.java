@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
@@ -33,6 +34,10 @@ public class Pessoa implements Serializable {
 	private Usuario usuario;
 	@OneToMany(mappedBy="pessoa", orphanRemoval=true)
 	private List<Pagamento> pagamento = new ArrayList<Pagamento>();
+	
+	@OneToMany(mappedBy="pessoa", orphanRemoval=true)
+	private List<Despesa> despesa = new ArrayList<Despesa>();
+	
 	@Version
 	private Long versao;
 

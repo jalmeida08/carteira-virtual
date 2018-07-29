@@ -6,7 +6,13 @@
 	<persistence-unit name="carteiraVirtual" transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasources/carteiraVirtualDS</jta-data-source>
-
+		
+		<class>br.com.jsa.model.Despesa</class>
+		<class>br.com.jsa.model.Pagamento</class>
+		<class>br.com.jsa.model.Parcela</class>
+		<class>br.com.jsa.model.Pessoa</class>
+		<class>br.com.jsa.model.Usuario</class>
+		
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 			<property name="connection.driver_class" value="com.mysql.jdbc.Driver" />

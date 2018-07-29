@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -25,18 +27,24 @@ public class Parcela implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_parcela")
 	private Long idParcela;
-	// private Despesa id_despesa;
+
 	@ManyToOne
 	@JoinColumn(name = "id_pagamento")
 	private Pagamento pagamento;
 
+	@ManyToOne
+	@JoinColumn(name = "id_despesa")
+	private Despesa despesa;
+	
 	@Column(name = "valor_parcela")
 	private Double valorParcela;
 
 	@Column(name = "data_vencimento")
+	@Temporal(TemporalType.DATE)
 	private Date dataVencimento;
 
 	@Column(name = "data_pagamento")
+	@Temporal(TemporalType.DATE)
 	private Date dataPagamento;
 
 	@Column(name = "valor_pago")
@@ -91,6 +99,14 @@ public class Parcela implements Serializable {
 
 	public void setValorPago(Double valorPago) {
 		this.valorPago = valorPago;
+	}
+
+	public Despesa getDespesa() {
+		return despesa;
+	}
+
+	public void setDespesa(Despesa despesa) {
+		this.despesa = despesa;
 	}
 
 }
