@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity(name = "parcela")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idParcela", scope=Parcela.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idParcela", scope = Parcela.class)
 public class Parcela implements Serializable {
 
 	private static final long serialVersionUID = -6038090343475692010L;
@@ -35,7 +35,7 @@ public class Parcela implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_despesa")
 	private Despesa despesa;
-	
+
 	@Column(name = "valor_parcela")
 	private Double valorParcela;
 
@@ -49,6 +49,9 @@ public class Parcela implements Serializable {
 
 	@Column(name = "valor_pago")
 	private Double valorPago;
+	
+	@Column(name="numero_parcela")
+	private int numeroParcela;
 
 	@Version
 	private Long versao;
@@ -107,6 +110,14 @@ public class Parcela implements Serializable {
 
 	public void setDespesa(Despesa despesa) {
 		this.despesa = despesa;
+	}
+
+	public int getNumeroParcela() {
+		return numeroParcela;
+	}
+
+	public void setNumeroParcela(int numeroParcela) {
+		this.numeroParcela = numeroParcela;
 	}
 
 }

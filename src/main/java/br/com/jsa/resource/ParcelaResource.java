@@ -64,4 +64,20 @@ public class ParcelaResource implements Serializable {
 		parcelaService.remover(idParcela);
 		return Response.ok().build();
 	}
+	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/pagarParcela")
+	public Response fecharParcela(Parcela parcela) {
+		parcelaService.fecharParcela(parcela);
+		return Response.ok().build();
+	}
+	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/abrirParcela")
+	public Response abrirParcela(Parcela parcela) {
+		parcelaService.abrirParcela(parcela);
+		return Response.ok().build();
+	}
 }

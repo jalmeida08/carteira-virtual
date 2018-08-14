@@ -38,4 +38,12 @@ public class ParcelaRepository {
 		p.setValorParcela(parcela.getValorParcela());
 		manager.merge(p);
 	}
+
+	public void fecharParcela(Parcela parcela) {
+		manager.merge(parcela);
+	}
+
+	public void abrirParcela(Parcela parcela) {
+		manager.merge(parcela);
+	}
 }

@@ -40,6 +40,10 @@ public class DespesaService {
 		}
 	}
 	
+	public Despesa getDespesa(Long idDespesa) {
+		return despesaRespository.getDespesa(idDespesa);
+	}
+	
 	public List<Despesa> listarTodasDespesas() {
 		return despesaRespository.listarTodasDespesas();
 	}

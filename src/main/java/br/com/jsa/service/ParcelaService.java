@@ -39,4 +39,20 @@ public class ParcelaService {
 		parcelaRepository.remover(idParcela);
 	}
 
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void fecharParcela(Parcela parcela) {
+		Parcela p = this.getParcela(parcela.getIdParcela());
+		p.setValorPago(parcela.getValorPago());
+		p.setDataPagamento(parcela.getDataPagamento());
+		this.parcelaRepository.fecharParcela(p);
+	}
+
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void abrirParcela(Parcela parcela) {
+		Parcela p = this.getParcela(parcela.getIdParcela());
+		p.setValorPago(null);
+		p.setDataPagamento(null);
+		this.parcelaRepository.abrirParcela(p);
+	}
+
 }
