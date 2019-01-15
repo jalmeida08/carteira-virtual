@@ -1,7 +1,7 @@
 package br.com.jsa.resource;
 
 import java.io.Serializable;
-import java.net.URI;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,22 +31,33 @@ public class DespesaResource implements Serializable {
 	@Path("/")
 	public Response salvar(Despesa despesa) {
 		despesaService.salvar(despesa);
-		URI uri = URI.create("despesa/" + despesa.getIdDespesa());
-		return Response.created(uri).build();
+		return Response.ok().build();
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/")
+	@Path("buscarDespesasUsuario/")
 	public List<Despesa> listarTodasDespesas() {
 		return despesaService.listarTodasDespesas();
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
-	public Despesa getDespesa(@PathParam("id") Long idDespesa) {
+	@Path("/buscarDespesa/{idDespesa}")
+	public Despesa getDespesa(
+			@PathParam("idDespesa") Long idDespesa) {
 		return despesaService.getDespesa(idDespesa);
+	}
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/pagarDespesa/{idDespesa}/{dataPagamento}")
+	public void pagarDespesa(
+			@PathParam("idDespesa") Long idDespesa,
+			@PathParam("dataPagamento")Date dataPagamento)  {
+		Despesa despesa = despesaService.pagarDespesa(idDespesa, dataPagamento);
+		Response.ok().entity(despesa).build();
 	}
 
 }

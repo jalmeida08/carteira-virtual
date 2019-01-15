@@ -53,6 +53,10 @@ public class Pagamento implements Serializable {
 	private List<Parcela> parcela = new ArrayList<Parcela>();
 
 	private String descricao;
+	
+	@ManyToOne
+	@JoinColumn(name="id_usuario")
+	private Usuario usuario;
 
 	@Version
 	private long versao;
@@ -127,6 +131,14 @@ public class Pagamento implements Serializable {
 
 	public void setParcela(List<Parcela> parcela) {
 		this.parcela = parcela;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

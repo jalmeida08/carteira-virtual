@@ -1,0 +1,4 @@
+use carteira_virtual;
+insert into instituicao_financeira (nome) values ("Sicob"), ("Banrisul"), ("Banco real de Brasília"), ("Banco do Brasil"), ("Itaú"), ("Caixa econômica");
+insert into financiamento_bancario (id_instituicao_financeira, data_vencimento, bandeira, numero) values(2, '2023-01-02', 'Master Card', 22151356493011);
+

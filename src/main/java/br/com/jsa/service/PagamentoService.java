@@ -10,26 +10,35 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
+import org.hibernate.QueryException;
+
 import br.com.jsa.model.Pagamento;
 import br.com.jsa.model.StatusPagamento;
 import br.com.jsa.repository.PagamentoRespository;
+import br.com.jsa.util.TokenUsuarioLogado;
 
 @Stateless
 public class PagamentoService {
 	@Inject
 	private PagamentoRespository pagamentoRespository;
-
+	
+	@Inject
+	private TokenUsuarioLogado tokenUsuarioLogado;
+	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void salvar(Pagamento pagamento) {
+		//tokenUsuarioLogado.recuperarIdUsuarioLogado();
 		pagamentoRespository.salvar(pagamento);
 	}
 
 	public Pagamento getPagamento(Long idPagamento) {
-		return pagamentoRespository.getPagamento(idPagamento);
+		Long idUsuario = tokenUsuarioLogado.recuperarIdUsuarioLogado();
+		return pagamentoRespository.getPagamento(idPagamento, idUsuario);
 	}
 
-	public List<Pagamento> buscarPagamentos() {
-		return pagamentoRespository.buscarTodosPagamentos();
+	public List<Pagamento> buscarTodosPagamentosUsuario() {
+		Long idUsuario = tokenUsuarioLogado.recuperarIdUsuarioLogado();
+		return pagamentoRespository.buscarTodosPagamentosUsuario(idUsuario);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -44,7 +53,8 @@ public class PagamentoService {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void remover(Long idPagamento) {
-		pagamentoRespository.remover(idPagamento);
+		Long idUsuario = tokenUsuarioLogado.recuperarIdUsuarioLogado();
+		pagamentoRespository.remover(idPagamento, idUsuario);
 	}
 
 	public void checarPagamentoDoDia() {
@@ -65,21 +75,30 @@ public class PagamentoService {
 		if (pagamento.getStatusPagamento().equals(StatusPagamento.RECEBIDO)) {
 			throw new RuntimeException("Pagamento já está com o status de recebido");
 		}
-		pagamentoRespository.fecharPagamento(idPagamento);
+		pagamentoRespository.fecharPagamento(idPagamento, idPagamento);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void abrirPagamento(Long idPagamento) {
+	public void abrirPagamento(Long idPagamento, Long idUsuario) {
 		Pagamento pagamento = this.getPagamento(idPagamento);
 		if (pagamento.getStatusPagamento().equals(StatusPagamento.ARECEBER)) {
 			throw new RuntimeException("Pagamento já está com o status de aberto");
 		}
-		pagamentoRespository.abrirPagamento(idPagamento);
+		pagamentoRespository.abrirPagamento(idPagamento, idUsuario);
 	}
 
 	public List<Pagamento> buscarTodosOsPagamentosDoMes() {
 		Date data = new Date();
-		return pagamentoRespository.pagamentosDoMes(this.primeiroEUltimoDia(data));
+		Long idUsuario = tokenUsuarioLogado.recuperarIdUsuarioLogado();
+		try {
+			return pagamentoRespository.pagamentosDoMes(idUsuario, this.primeiroEUltimoDia(data));			
+		}catch (QueryException e) {
+			System.out.println("QueryException  "+e.getMessage());
+			return null;
+		}catch (IllegalArgumentException e) {
+			System.out.println("IllegalArgumentException "+e.getMessage());
+			return null;
+		}
 	}
 
 	public List<Date> primeiroEUltimoDia(Date data) {

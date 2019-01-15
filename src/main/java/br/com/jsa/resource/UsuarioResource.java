@@ -18,7 +18,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.jsa.model.Usuario;
+import br.com.jsa.model.UsuarioLogado;
 import br.com.jsa.service.UsuarioService;
+import br.com.jsa.util.JWTUtil;
 
 @Path("/usuario")
 @RequestScoped
@@ -51,14 +53,20 @@ public class UsuarioResource implements Serializable {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/login")
-	public Usuario logar(Usuario usuario) {
-		Usuario user = usuarioService.logar(usuario);
-		if (user == null) {
-			return null;
+	public Response logar(Usuario usuario) {
+		
+		String user = usuarioService.logar(usuario);
+		String token = JWTUtil.create(user);
+		
+		if (user != null) {
+			UsuarioLogado me = new UsuarioLogado();
+			me.setToken(token);
+			return Response.ok().entity(me).build();
 		}
-		return user;
+		
+		return Response.status(Response.Status.UNAUTHORIZED).build();
 	}
-
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/")

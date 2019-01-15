@@ -57,9 +57,17 @@ public class Despesa implements Serializable {
 	@JoinColumn(name = "id_pessoa")
 	private Pessoa pessoa;
 	
-	@OneToMany(mappedBy="despesa" , orphanRemoval = true, cascade = {CascadeType.ALL})
+	@OneToMany(mappedBy="despesa", orphanRemoval = true, cascade = {CascadeType.ALL})
 	private List<Parcela> parcela = new ArrayList<Parcela>();
-
+	
+	@ManyToOne
+	@JoinColumn(name="id_financiamento_bancario")
+	private FinanciamentoBancario financiamentoBancario;
+	
+	@ManyToOne
+	@JoinColumn(name="id_usuario")
+	private Usuario usuario;
+	
 	@Version
 	private Long versao;
 
@@ -149,6 +157,22 @@ public class Despesa implements Serializable {
 
 	public void setParcelado(boolean parcelado) {
 		this.parcelado = parcelado;
+	}
+
+	public FinanciamentoBancario getFinanciamentoBancario() {
+		return financiamentoBancario;
+	}
+
+	public void setFinanciamentoBancario(FinanciamentoBancario financiamentoBancario) {
+		this.financiamentoBancario = financiamentoBancario;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

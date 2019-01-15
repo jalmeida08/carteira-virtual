@@ -29,16 +29,17 @@ public class PagamentoResource implements Serializable {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	@Path("/{id}")
-	public Pagamento getPessoa(@PathParam("id") Long idPagamento) {
+	@Path("/buscarPagamento/{idUsuario}/{idpagamento}")
+	public Pagamento getPagamento(
+			@PathParam("idpagamento") Long idPagamento, @PathParam("idUsuario")Long idUsuario) {
 		return pagamentoService.getPagamento(idPagamento);
 	}
 
 	@GET
-	@Path("/")
+	@Path("/buscarPagamentosUsuario/{idUsuario}")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public List<Pagamento> pagamentos() {
-		return pagamentoService.buscarPagamentos();
+		return pagamentoService.buscarTodosPagamentosUsuario();
 	}
 
 	@POST
@@ -60,16 +61,18 @@ public class PagamentoResource implements Serializable {
 
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
-	public Response remover(@PathParam("id") Long idPagamento) {
+	@Path("/remover/{idUsuario}/{idPagamento}")
+	public Response remover(
+			@PathParam("idUsaurio")Long idUsuario,@PathParam("idPagamento") Long idPagamento) {
 		pagamentoService.remover(idPagamento);
 		return Response.ok().build();
 	}
 	
-	@PUT
+	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/fecharPagamento/{id}")
-	public Response fecharPagamento(@PathParam("id") Long idPagamento) {
+	@Path("/fecharPagamento/{idUsuario}/{idPagamento}")
+	public Response fecharPagamento(
+			@PathParam("idUsuario")Long idUsuario, @PathParam("idPagamento") Long idPagamento) {
 		try{
 			pagamentoService.fecharPagamento(idPagamento);
 			return Response.ok().build();
@@ -78,12 +81,13 @@ public class PagamentoResource implements Serializable {
 		}
 	}
 	
-	@PUT
+	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/abrirPagamento/{id}")
-	public Response abrirPagamento(@PathParam("id") Long idPagamento) {
+	@Path("/abrirPagamento/{idUsuario}/{idPagamento}")
+	public Response abrirPagamento(
+			@PathParam("idUsuario")Long idUsuario, @PathParam("idPagamento") Long idPagamento) {
 		try{
-			pagamentoService.abrirPagamento(idPagamento);
+			pagamentoService.abrirPagamento(idPagamento, idUsuario);
 			return Response.ok().build();
 		}catch (RuntimeException e) {
 			return Response.serverError().build();
