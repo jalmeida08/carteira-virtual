@@ -3,6 +3,8 @@ package br.com.jsa.util;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import br.com.jsa.model.Usuario;
+import br.com.jsa.service.UsuarioService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 
@@ -11,16 +13,22 @@ public class TokenUsuarioLogado {
 	@Inject
 	private HttpServletRequest req;
 	
+	@Inject
+	private UsuarioService usuarioService;
+	
 	private String recuperarTokenHead() {
 		String token = req.getHeader(JWTUtil.TOKEN_HEADER);
 	    Jws<Claims> decode = JWTUtil.decode(token);
-	    System.out.println("decode " + decode);
-	    return decode.toString();
+	    return decode.getBody().getSubject();
 	}
 	
 	public Long recuperarIdUsuarioLogado() {
-		String arrayToken = recuperarTokenHead();
-		arrayToken.toString().split("#");
-	    return 1L;
+		String token = recuperarTokenHead();
+		String[] arrayToken = token.toString().split("#");
+	    return Long.parseLong(arrayToken[0]);
+	}
+	
+	public Usuario recuperarObjectUsuario() {
+		return usuarioService.getUsuario(recuperarIdUsuarioLogado());
 	}
 }

@@ -15,7 +15,7 @@ public class DespesaRespository {
 
 	public Despesa getDespesa(Long idDespesa, Long idUsuario) {
 		return manager.createQuery(
-				"from br.com.jsa.model.Despesa d where d.idUsuario = :idUsuario and d.idDespesa = :idDespesa", Despesa.class)
+				"from br.com.jsa.model.Despesa d where d.usuario.idUsuario = :idUsuario and d.idDespesa = :idDespesa", Despesa.class)
 				.setParameter("idUsuario", idUsuario)
 				.setParameter("idDespesa", idDespesa)
 				.getSingleResult();
@@ -36,7 +36,7 @@ public class DespesaRespository {
 
 	public List<Despesa> listarTodasDespesaUsuarios(Long idUsuario) {
 		return manager.createQuery(
-				"select d from br.com.jsa.model.Despesa d where d.idUsuario = :idUsuario", Despesa.class)
+				"select d from br.com.jsa.model.Despesa d where d.usuario.idUsuario = :idUsuario", Despesa.class)
 				.setParameter("idUsuario", idUsuario)
 				.getResultList();
 	}
@@ -47,7 +47,7 @@ public class DespesaRespository {
 
 	public List<Despesa> buscarDespesaUsuarioPorPeriodo(Long idUsuario, Date dataInicio, Date dataFim) {
 		return manager.createQuery(
-				"select d from br.com.br.sa.model.Despesa d where d.idUsuario = :idUsuario and between d.data_vencimento = :datainicio and :dataFim",
+				"select d from br.com.br.sa.model.Despesa d where d.usuario.idUsuario = :idUsuario and between d.data_vencimento = :datainicio and :dataFim",
 				Despesa.class)
 				.setParameter("idUsuario", idUsuario)
 				.setParameter("dataInicio", dataInicio)

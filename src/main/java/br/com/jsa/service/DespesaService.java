@@ -67,7 +67,8 @@ public class DespesaService {
 	}
 	
 	public List<Despesa> listarTodasDespesas() {
-		return despesaRespository.listarTodasDespesaUsuarios(1L);
+		Long idUsuario = tokenUsuarioLogado.recuperarIdUsuarioLogado();
+		return despesaRespository.listarTodasDespesaUsuarios(idUsuario);
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)

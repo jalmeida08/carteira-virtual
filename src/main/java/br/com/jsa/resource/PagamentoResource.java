@@ -29,9 +29,9 @@ public class PagamentoResource implements Serializable {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	@Path("/buscarPagamento/{idUsuario}/{idpagamento}")
+	@Path("/buscarPagamento/{idpagamento}")
 	public Pagamento getPagamento(
-			@PathParam("idpagamento") Long idPagamento, @PathParam("idUsuario")Long idUsuario) {
+			@PathParam("idpagamento") Long idPagamento) {
 		return pagamentoService.getPagamento(idPagamento);
 	}
 

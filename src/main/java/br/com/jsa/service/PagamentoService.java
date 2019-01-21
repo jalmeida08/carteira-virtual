@@ -10,8 +10,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
-import org.hibernate.QueryException;
-
 import br.com.jsa.model.Pagamento;
 import br.com.jsa.model.StatusPagamento;
 import br.com.jsa.repository.PagamentoRespository;
@@ -27,7 +25,7 @@ public class PagamentoService {
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void salvar(Pagamento pagamento) {
-		//tokenUsuarioLogado.recuperarIdUsuarioLogado();
+		pagamento.setUsuario(tokenUsuarioLogado.recuperarObjectUsuario());
 		pagamentoRespository.salvar(pagamento);
 	}
 
@@ -59,7 +57,8 @@ public class PagamentoService {
 
 	public void checarPagamentoDoDia() {
 		Date dataAtual = new Date();
-		List<Pagamento> checarPagamentoDoDia = pagamentoRespository.checarPagamentoDoDia(dataAtual);
+		Long idUsuario = tokenUsuarioLogado.recuperarIdUsuarioLogado();
+		List<Pagamento> checarPagamentoDoDia = pagamentoRespository.checarPagamentoDoDia(dataAtual, idUsuario);
 		for (Pagamento pagamento : checarPagamentoDoDia) {
 			System.out.println(pagamento.getStatusPagamento());
 			if (pagamento.getStatusPagamento().equals(StatusPagamento.ARECEBER)) {
@@ -90,15 +89,7 @@ public class PagamentoService {
 	public List<Pagamento> buscarTodosOsPagamentosDoMes() {
 		Date data = new Date();
 		Long idUsuario = tokenUsuarioLogado.recuperarIdUsuarioLogado();
-		try {
-			return pagamentoRespository.pagamentosDoMes(idUsuario, this.primeiroEUltimoDia(data));			
-		}catch (QueryException e) {
-			System.out.println("QueryException  "+e.getMessage());
-			return null;
-		}catch (IllegalArgumentException e) {
-			System.out.println("IllegalArgumentException "+e.getMessage());
-			return null;
-		}
+		return pagamentoRespository.pagamentosDoMes(idUsuario, this.primeiroEUltimoDia(data));			
 	}
 
 	public List<Date> primeiroEUltimoDia(Date data) {

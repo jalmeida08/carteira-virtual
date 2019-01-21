@@ -25,7 +25,7 @@ public class PagamentoRespository {
 
 	public Pagamento getPagamento(Long idPagamento, Long idUsuario) {
 		return manager.createQuery(
-				"select p from br.com.jsa.model.Pagamento p where p.Usuario.idUsuario = :idUsuario and idPagamento = :idPagamento", Pagamento.class)
+				"select p from br.com.jsa.model.Pagamento p where p.usuario.idUsuario = :idUsuario and idPagamento = :idPagamento", Pagamento.class)
 				.setParameter("idUsuario", idUsuario)
 				.setParameter("idPagamento", idPagamento)
 				.getSingleResult();
@@ -33,14 +33,14 @@ public class PagamentoRespository {
 
 	public List<Pagamento> buscarTodosPagamentosUsuario(Long idUsuario) {
 		return manager.createQuery(
-				"select p from br.com.jsa.model.Pagamento p where p.Usuario.idUsuario = :idUsuario", Pagamento.class)
+				"select p from br.com.jsa.model.Pagamento p where p.usuario.idUsuario = :idUsuario", Pagamento.class)
 				.setParameter("idUsuario", idUsuario)
 				.getResultList();
 	}
 
 	public void remover(Long idPagamento, Long idUsuario) {
 		Pagamento pagamento = manager.createQuery(
-				"select p from br.com.jsa.model.Pagamento p where p.Usuario.idUsuario = :idUsuario and idPagamento = :idPagamento", Pagamento.class)
+				"select p from br.com.jsa.model.Pagamento p where p.usuario.idUsuario = :idUsuario and idPagamento = :idPagamento", Pagamento.class)
 				.setParameter("idUsuario", idUsuario)
 				.setParameter("idPagamento", idPagamento)
 				.getSingleResult();
@@ -62,10 +62,11 @@ public class PagamentoRespository {
 		manager.merge(pag);
 	}
 	
-	public List<Pagamento> checarPagamentoDoDia(Date dataAtual) {
+	public List<Pagamento> checarPagamentoDoDia(Date dataAtual, Long idUsuario) {
 		return manager.createQuery(
-				"select p from br.com.jsa.model.Pagamento p where p.fixo = true and p.dataPagamento = :dataPagamento", Pagamento.class)
+				"select p from br.com.jsa.model.Pagamento p where p.usuario.idUsuario = :idUsuario and p.fixo = true and p.dataPagamento = :dataPagamento", Pagamento.class)
 				.setParameter("dataPagamento", dataAtual)
+				.setParameter("idUsuario", idUsuario)
 				.getResultList();
 	}
 	
@@ -83,7 +84,7 @@ public class PagamentoRespository {
 	
 	public List<Pagamento> pagamentosDoMes(Long idUsuario, List<Date> datas){
 		List<Pagamento> pagamentosDoMes = manager.createQuery(
-				"select p from br.com.jsa.model.Pagamento p where p.Usuario.idUsuario = :idUsuario and p.dataPagamento between :primeiroDia and :ultimoDia", Pagamento.class)
+				"select p from br.com.jsa.model.Pagamento as p where p.usuario.idUsuario = :idUsuario and p.dataPagamento between :primeiroDia and :ultimoDia", Pagamento.class)
 				.setParameter("idUsuario", idUsuario)
 				.setParameter("primeiroDia",datas.get(0))
 				.setParameter("ultimoDia", datas.get(1))
